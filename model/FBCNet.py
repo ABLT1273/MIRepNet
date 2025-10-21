@@ -60,7 +60,7 @@ class FBCNet(nn.Module):
         x = self.temporalLayer(x)
         x = torch.flatten(x, start_dim=1)
         x = self.lastLayer(x)
-        #x = nn.Linear(in_features=x, out_features=3)#分类头
+        #x = nn.Linear(in_features=x, out_features=3)
         return x
 
 
@@ -182,3 +182,4 @@ def initialize_weight(model, method):
                 if hasattr(module, "bias"):
                     if module.bias is not None:
                         nn.init.constant_(module.bias, 0)
+
