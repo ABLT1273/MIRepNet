@@ -14,10 +14,7 @@ from scipy import signal
 import torch
 import torch.nn as nn
 
-# from utils_1 import Conv2dWithConstraint, LazyLinearWithConstraint, PositionalEncodingFourier
-
-
-class Conv2dWithConstraint(nn.Conv2d):  # 继承自PyTorch的nn.Conv2d
+class Conv2dWithConstraint(nn.Conv2d):
     def __init__(self, *args, max_norm=1, **kwargs):
         super(Conv2dWithConstraint, self).__init__(*args, **kwargs)
         self.max_norm = max_norm
@@ -133,7 +130,7 @@ class ADFCNN(nn.Module):
 
     def forward(self, x):
         # if x.dim() == 3:
-        #     x = x.unsqueeze(1)  # x 可能是 [B, C, T]，自动转成 [B, 1, C, T]
+        #     x = x.unsqueeze(1) 
         # print("=============")
         # print(x.shape)
         # print("++++++++++++")
@@ -184,8 +181,6 @@ class classifier(nn.Module):
     def forward(self, x):
         # print(x.shape)
         x = self.dense(x)
-        # print("++++++++++++++++++++++++++++++++++++")
-        # print(x.shape)
         x = torch.squeeze(x, 3)
         x = torch.squeeze(x, 2)
         return x
@@ -205,8 +200,6 @@ class Net(nn.Module):
     def forward(self, x):
         x = self.backbone(x)
         x = self.classifier(x)
-        # print("_+_+__+_+_+_+_+_+========")
-        # print("x: ", x.shape)
         return x
 
 class ActSquare(nn.Module):
@@ -223,4 +216,5 @@ class ActLog(nn.Module):
         self.eps = eps
 
     def forward(self, x):
+
         return torch.log(torch.clamp(x, min=self.eps))
