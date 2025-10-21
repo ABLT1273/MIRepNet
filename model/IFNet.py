@@ -13,9 +13,6 @@ import mne
 from scipy import signal
 from scipy.signal import detrend
 
-# ----------------------------------------
-# 定义 IFNet 及其子模块
-# ----------------------------------------
 class Conv(nn.Module):
     def __init__(self, conv, activation=None, bn=None):
         super().__init__()
@@ -110,11 +107,11 @@ class Stem(nn.Module):
         self.dp = nn.Dropout(0.5)
 
     def forward(self, x):
-        # x: [N, C, T], 其中 C = in_planes * radix
+        # x: [N, C, T], C = in_planes * radix
         N, C, T = x.shape
         out = self.sconv(x)  # [N, mid_planes, T]
-        out = torch.split(out, self.out_planes, dim=1)  # list 长度 radix，每个 [N, out_planes, T]
-        out = [m(o) for o, m in zip(out, self.tconv)]   # 每个仍 [N, out_planes, T]
+        out = torch.split(out, self.out_planes, dim=1)  
+        out = [m(o) for o, m in zip(out, self.tconv)] 
         out = self.interFre(out)  # [N, out_planes, T]
         out = out.reshape(N, self.out_planes, T // self.patch_size, self.patch_size)
         out = self.power(out)  # [N, out_planes, T//patch_size]
@@ -124,7 +121,6 @@ class Stem(nn.Module):
 class IFNet(nn.Module):
     def __init__(self, in_planes, out_planes, kernel_size, radix, patch_size, time_points, num_classes):
         super().__init__()
-        # in_planes 传入时应当等于 预处理后通道数 ÷ radix
         self.in_planes = in_planes * radix
         self.out_planes = out_planes
         self.stem = Stem(self.in_planes, self.out_planes, kernel_size,
@@ -155,4 +151,5 @@ class IFNet(nn.Module):
         # x: [B, C, T]
         out = self.stem(x)             # [B, out_planes, T//patch_size]
         out = self.fc(out.flatten(1))  # [B, num_classes]
+
         return out
