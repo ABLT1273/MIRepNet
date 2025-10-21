@@ -102,7 +102,7 @@ class TransformerEncoder(nn.Sequential):
         super().__init__(*[TransformerEncoderBlock(emb_size) for _ in range(depth)])
 
 
-class Conformer(nn.Module):  # 不再继承 nn.Sequential
+class Conformer(nn.Module):
     def __init__(self, emb_size=40, depth=6, n_classes=2,num_cha=22, **kwargs):
         super().__init__()
         self.patch_embedding = PatchEmbedding(emb_size=emb_size, num_cha=num_cha)
@@ -116,7 +116,8 @@ class Conformer(nn.Module):  # 不再继承 nn.Sequential
         # print("x = self.transformer(x)")
         x = self.transformer(x)      # [batch_size, seq_length, emb_size]
         x = torch.mean(x,dim=1)
-        output = self.clshead(x)    # 取最后一个时间步的输出进行分类
+        output = self.clshead(x) 
         # print(output.shape)
         return output
+
 
