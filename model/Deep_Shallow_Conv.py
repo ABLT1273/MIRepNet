@@ -133,9 +133,9 @@ class ShallowConvNet(nn.Module):
             ('conv1', nn.Conv2d(1, 40, kernel_size=(1, 25 * TemporalKernel_Times))),
             ('conv2', nn.Conv2d(40, 40, kernel_size=(Chans, 1))),
             ('bn',   nn.BatchNorm2d(40, track_running_stats=bn_track)),
-            ('act1', SquareActivation()),                    # ← 替换
+            ('act1', SquareActivation()),             
             ('avgp', nn.AvgPool2d(kernel_size=(1, 75), stride=(1, 15))),
-            ('act2', LogActivation()),                       # ← 替换
+            ('act2', LogActivation()),                   
             ('drop', nn.Dropout(dropoutRate)),
         ]))
 
@@ -167,4 +167,5 @@ class ShallowConvNet(nn.Module):
                 p.data = torch.renorm(p.data, p=2, dim=0, maxnorm=2.0)
         for n, p in self.classifier_block.named_parameters():
             if n == '0.weight':
+
                 p.data = torch.renorm(p.data, p=2, dim=0, maxnorm=0.5)
