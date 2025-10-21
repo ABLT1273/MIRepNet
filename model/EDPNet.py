@@ -12,10 +12,6 @@ from einops import rearrange
 
 
 class VarPool1D(nn.Module):
-    """
-    计算给定 kernel 区间的方差，用 stride 滑窗。
-    输出尺寸与 Avg/MaxPool1d 相同。
-    """
 
     def __init__(self, kernel_size: int, stride: int = None, eps: float = 1e-6):
         super().__init__()
@@ -37,7 +33,7 @@ class VarMaxPool1D(nn.Module):
     def __init__(self, total_T: int, kernel_size: int):
         super().__init__()
         self.var_pool = VarPool1D(kernel_size=kernel_size,
-                                  stride=kernel_size)   # 不再检查 patches
+                                  stride=kernel_size)
 
     def forward(self, x):                      # x: [B,C,T]
         var = self.var_pool(x)                 # [B,C,L]
@@ -88,7 +84,7 @@ class LightweightConv1d(nn.Module):
             weight = F.softmax(weight, dim=-1)
 
         # input = input.view(-1, H, T)
-        inp = rearrange(inp, "b (h c) t ->(b c) h t", h=H)    # 从 (B, C, T) 转换为 (B*C/H, H, T)
+        inp = rearrange(inp, "b (h c) t ->(b c) h t", h=H)  
         if self.bias is None:
             output = F.conv1d(
                 inp,
@@ -106,7 +102,7 @@ class LightweightConv1d(nn.Module):
                 padding=self.padding,
                 groups=self.num_heads,
             )
-        output = rearrange(output, "(b c) h t ->b (h c) t", b=B)  # 从 (B*C/H, H, T) 转换回 (B, C, T)
+        output = rearrange(output, "(b c) h t ->b (h c) t", b=B)  #  (B*C/H, H, T) -> (B, C, T)
 
         return output
 
@@ -291,5 +287,6 @@ def huber_loss(input, target, sigma=1):
     diff = torch.abs(input - target)
     cond = diff < beta
     loss = torch.where(cond, 0.5 * diff**2 / beta, diff - 0.5 * beta)
+
 
     return torch.sum(loss, dim=1)
