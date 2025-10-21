@@ -34,10 +34,7 @@ class EEGNet(nn.Module):
                       kernel_size=(1, self.kernLenght),
                       stride=1,
                       bias=False),
-            # (32, 4, 22, 1001)
             nn.BatchNorm2d(num_features=self.F1),
-            # nn.BatchNorm2d 的作用是对输入的每个通道进行归一化，使得每个通道的均值接近于0，方差接近于1
-            # (32, 4, 22, 1001)
             nn.Conv2d(in_channels=self.F1,
                       out_channels=self.F1 * self.D,
                       kernel_size=(self.Chans, 1),
@@ -97,4 +94,5 @@ class EEGNet(nn.Module):
         output = output.reshape(output.size(0), -1)
         output = self.classifier_block(output)
         return output
+
 
