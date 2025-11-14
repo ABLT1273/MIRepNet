@@ -73,7 +73,7 @@ Dreyer_chn_names = [
                             'P3',  'PZ',  'P4',
         ]
 
-Lee_origin_chn_names = ['FP1', 'FP2', 'F7', 'F3', 'FZ', 'F4', 'F6', 'FC5', 'FC1', 'FC2', 'FC6', 'T7', 'C3', 'CZ', 'C4', 'T8', 'TP9', 'CP5', 'CP1', 'CP2', 'CP6',
+Lee_origin_chn_names = ['FP1', 'FP2', 'F7', 'F3', 'FZ', 'F4', 'F8', 'FC5', 'FC1', 'FC2', 'FC6', 'T7', 'C3', 'CZ', 'C4', 'T8', 'TP9', 'CP5', 'CP1', 'CP2', 'CP6',
                          'TP10', 'P7', 'P3', 'PZ', 'P4', 'P8', 'PO9', 'O1', 'OZ', 'O2', 'PO10', 'FC3', 'FC4', 'C5', 'C1', 'C2', 'C6', 'CP3', 'CPZ', 
                          'CP4', 'P1', 'P2','POZ',  'FT9','FTT9', 'TPP7', 'TP7', 'TPP9', 'FT10', 'FTT10', 'TPP8', 'TP8', 'TPP10', 'F9', 'F10','AF7', 'AF3', 'AF4', 'AF8','PO3','PO4']
 
