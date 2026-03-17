@@ -262,13 +262,23 @@ class OnlineCNNDiscriminator(nn.Module):
 
 class DMMWcycleGAN(nn.Module):
     def __init__(self, config: DMMWcycleGANConfig) -> None:
-        super().__init__()
-        self.config = config
-        self.g1 = LightweightGenerator(config.generator_channels)
-        self.g2 = LightweightGenerator(config.generator_channels)
-        self.d1 = WGANDiscriminator(config.critic_channels)
-        self.d2 = WGANDiscriminator(config.critic_channels)
+
+        # 初始化函数，接收一个DMMWcycleGANConfig类型的配置参数
+        super().__init__()  # 调用父类的初始化方法
+        self.config = config  # 保存配置信息
+
+        
+        # 创建两个轻量级生成器实例，用于两个方向的图像转换
+        self.g1 = LightweightGenerator(config.generator_channels)  # 第一个生成器
+        self.g2 = LightweightGenerator(config.generator_channels)  # 第二个生成器
+
+        
+        # 创建两个WGAN判别器实例，用于评估生成图像的真实性
+        self.d1 = WGANDiscriminator(config.critic_channels)  # 第一个判别器
+        self.d2 = WGANDiscriminator(config.critic_channels)  # 第二个判别器
+        # 创建一个在线CNN判别器，用于分类任务
         self.du = OnlineCNNDiscriminator(config.classifier_channels, config.num_classes)
+        # 定义交叉熵损失函数，用于分类任务的损失计算
         self.ce_loss = nn.CrossEntropyLoss()
 
     @property
