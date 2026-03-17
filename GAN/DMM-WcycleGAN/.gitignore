@@ -3,3 +3,5 @@
 *.pt
 *.png
 *.pdf.md
+*.pkl
+*.h5
