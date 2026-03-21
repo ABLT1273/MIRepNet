@@ -3,7 +3,6 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from timm.models.layers import trunc_normal_
 import numpy as np
 import pickle
 import argparse
@@ -13,6 +12,11 @@ from scipy import signal
 
 import torch
 import torch.nn as nn
+
+try:
+    from timm.models.layers import trunc_normal_
+except ModuleNotFoundError:
+    from torch.nn.init import trunc_normal_
 
 class Conv2dWithConstraint(nn.Conv2d):
     def __init__(self, *args, max_norm=1, **kwargs):

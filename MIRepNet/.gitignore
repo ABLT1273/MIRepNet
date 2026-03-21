@@ -4,7 +4,6 @@ __pycache__/
 .DS_Store
 *.log
 *.pid
-*.mat
-*.json
-practice.ipynb
-*.csv
+*.pdf.md
+*.txt
+*.npy

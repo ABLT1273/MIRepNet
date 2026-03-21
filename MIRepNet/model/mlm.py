@@ -1,15 +1,15 @@
 import torch
-from torch.utils.data import Dataset, DataLoader
-import numpy as np
-import os
+# from torch.utils.data import Dataset, DataLoader
+# import numpy as np
+# import os
 import torch.nn as nn
-import torch.optim as optim
+# import torch.optim as optim
 import torch.nn.functional as F
 from torch import Tensor
 from einops import rearrange, reduce, repeat
 from einops.layers.torch import Rearrange, Reduce
-import wandb
-import math
+# import wandb
+# import math
 
 class PatchEmbedding(nn.Module):
     def __init__(self, embed_dim=128, num_channels=45):
@@ -186,7 +186,7 @@ class mlm_mask(nn.Module):
             cls_output = self.clshead(pooled)
             return pooled, cls_output
     def init_from_pretrained(self, pretrained_path, freeze_encoder=False, strict=True):
-        pretrained_dict = torch.load(pretrained_path)
+        pretrained_dict = torch.load(pretrained_path, map_location=torch.device("cpu"))
         
         model_dict = self.state_dict()
         
