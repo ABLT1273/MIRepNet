@@ -2,7 +2,7 @@ import argparse
 from pathlib import Path
 
 import numpy as np
-from moabb.datasets import BNCI2014_001, BNCI2015_001
+from moabb.datasets import AlexMI, BNCI2014_001, BNCI2015_001
 from moabb.paradigms import MotorImagery
 
 
@@ -40,6 +40,16 @@ DATASET_CONFIGS = {
         "resample": 250,
         "expected_trials_per_subject": 200,
         "output_dir": "BNCI2015001",
+    },
+    "AlexMI": {
+        "dataset_cls": AlexMI,
+        "events": ["right_hand", "feet", "rest"],
+        "n_classes": 3,
+        "fmin": 8,
+        "fmax": 30,
+        "resample": 250,
+        "expected_trials_per_subject": 60,
+        "output_dir": "AlexMI",
     },
 }
 

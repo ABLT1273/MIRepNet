@@ -6,7 +6,7 @@ import pandas as pd
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent
-DEFAULT_DATASETS = ["BNCI2014001", "BNCI2015001", "BNCI2014004", "BNCI2014001-4"]
+DEFAULT_DATASETS = ["BNCI2014001", "BNCI2015001", "BNCI2014004", "AlexMI", "BNCI2014001-4"]
 DEFAULT_MODELS = [
     "MIRepNet",
     "ShallowConv",
@@ -103,6 +103,7 @@ def main():
 
     accuracy_table = summary_df.pivot(index="model", columns="dataset", values="acc_display")
     accuracy_table = accuracy_table.reindex(args.models)
+    accuracy_table = accuracy_table.reindex(columns=args.datasets)
     accuracy_table.to_csv(output_dir / "final_accuracy_table.csv")
 
     metric_table = summary_df[
