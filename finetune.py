@@ -1,6 +1,10 @@
 from datetime import datetime
 import argparse
+from pathlib import Path
 from utils.utils import *
+
+
+PROJECT_ROOT = Path(__file__).resolve().parent
 
 def parse_args():
     """Parse command line arguments with all hyperparameters"""
@@ -49,7 +53,7 @@ def parse_args():
                        help='Number of experiment repetitions')
     
     # Pretrained weights
-    parser.add_argument('--pretrain_path', default='./weight/MIRepNet.pth', 
+    parser.add_argument('--pretrain_path', default=str(PROJECT_ROOT / 'weight' / 'MIRepNet.pth'),
                        help='Path to pretrained model weights')
     
     return parser.parse_args()
@@ -64,8 +68,10 @@ if __name__ == '__main__':
     
     # Initialize logging
     experiment_time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    log_dir = PROJECT_ROOT / 'result' / 'log' / f"{args.dataset_name}_{args.model_name}_{experiment_time}"
+    os.makedirs(log_dir, exist_ok=True)
     log_file = open(
-        f"./result/log/{args.dataset_name}_{args.model_name}_{experiment_time}_log.txt", 
+        log_dir / 'log.txt',
         'w'
     )
     

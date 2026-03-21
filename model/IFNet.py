@@ -7,11 +7,14 @@ import torch.optim as optim
 import torch.utils.data as Data
 from sklearn.model_selection import train_test_split
 import argparse
-from timm.models.layers import trunc_normal_
 import torch.nn.functional as F
-import mne
 from scipy import signal
 from scipy.signal import detrend
+
+try:
+    from timm.models.layers import trunc_normal_
+except ModuleNotFoundError:
+    from torch.nn.init import trunc_normal_
 
 class Conv(nn.Module):
     def __init__(self, conv, activation=None, bn=None):
