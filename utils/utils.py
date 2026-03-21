@@ -32,7 +32,7 @@ DATASET_CONFIGS = {
     "BNCI2015001": {"subjects": 12, "num_classes": 2, "sampling_rate": 512},
     "BNCI2014004": {"subjects": 9, "num_classes": 2, "sampling_rate": 250},
     "BNCI2014001-4": {"subjects": 9, "num_classes": 4, "sampling_rate": 250},
-    "AlexMI": {"subjects": 8, "num_classes": 2, "sampling_rate": 512},
+    "AlexMI": {"subjects": 8, "num_classes": 3, "sampling_rate": 512},
 }
 
 SUPPORTED_MODELS = {
