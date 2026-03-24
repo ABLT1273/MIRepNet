@@ -40,7 +40,14 @@ def parse_args():
     parser.add_argument("--depth", type=int, default=6, help="Transformer depth for MIRepNet")
     parser.add_argument("--num_workers", type=int, default=4, help="Number of dataloader workers")
     parser.add_argument("--val_split", type=float, default=0.7, help="Validation split ratio")
-    parser.add_argument("--num_exp", type=int, default=1, help="Number of repeated seeds")
+    parser.add_argument("--num_exp", type=int, default=1, help="Deprecated fallback when --seeds is not provided")
+    parser.add_argument(
+        "--seeds",
+        nargs="+",
+        type=int,
+        default=[666, 100, 101],
+        help="Explicit random seeds to run, e.g. --seeds 666 100 101",
+    )
     parser.add_argument(
         "--pretrain_path",
         default=str(PROJECT_ROOT / "weight" / "MIRepNet.pth"),

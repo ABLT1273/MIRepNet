@@ -60,6 +60,12 @@ def set_seed(seed):
     torch.backends.cudnn.benchmark = False
 
 
+def resolve_seeds(args):
+    if hasattr(args, "seeds") and args.seeds:
+        return [int(seed) for seed in args.seeds]
+    return [seed_offset + 666 for seed_offset in range(args.num_exp)]
+
+
 def pad_missing_channels_diff(x, target_channels, actual_channels):
     bsz, channels, time_points = x.shape
     num_target = len(target_channels)
@@ -347,8 +353,8 @@ def run_experiment(args, log_file):
     subject_records = []
     seed_summaries = []
 
-    for seed_offset in range(args.num_exp):
-        seed = seed_offset + 666
+    seed_list = resolve_seeds(args)
+    for seed in seed_list:
         set_seed(seed)
         subject_results = {}
         seed_records = []
@@ -376,12 +382,13 @@ def run_experiment(args, log_file):
         "dataset": args.dataset_name,
         "model": args.model_name,
         "subject_count": args.sub_num,
-        "seed_count": args.num_exp,
+        "seed_count": len(seed_list),
         "mean_val_acc": subject_df["val_acc"].mean(),
         "std_val_acc": subject_df["val_acc"].std(ddof=0),
         "mean_val_balanced_acc": subject_df["val_balanced_acc"].mean(),
         "mean_val_macro_f1": subject_df["val_macro_f1"].mean(),
         "mean_val_kappa": subject_df["val_kappa"].mean(),
+        "seeds": ",".join(str(seed) for seed in seed_list),
         "legacy_acc_csv": acc_filename,
         "subject_metrics_csv": subject_metrics_filename,
         "seed_summary_csv": seed_summary_filename,

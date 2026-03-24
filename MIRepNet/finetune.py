@@ -50,7 +50,9 @@ def parse_args():
     
     # Experiment repetition
     parser.add_argument('--num_exp', type=int, default=1, 
-                       help='Number of experiment repetitions')
+                       help='Deprecated fallback when --seeds is not provided')
+    parser.add_argument('--seeds', nargs='+', type=int, default=[666, 100, 101],
+                       help='Explicit random seeds to run, e.g. --seeds 666 100 101')
     
     # Pretrained weights
     parser.add_argument('--pretrain_path', default=str(PROJECT_ROOT / 'weight' / 'MIRepNet.pth'),
