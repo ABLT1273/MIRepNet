@@ -59,13 +59,25 @@ def main():
                 continue
 
             subject_df = pd.read_csv(subject_metrics_csv)
+            seed_df = pd.read_csv(seed_summary_csv)
+
+            subject_mean_acc = subject_df["val_acc"].mean()
+            subject_std_acc = subject_df["val_acc"].std(ddof=0)
+            seed_mean_acc = seed_df["mean_val_acc"].mean()
+            seed_std_acc = seed_df["mean_val_acc"].std(ddof=0)
+
             rows.append(
                 {
                     "dataset": dataset,
                     "model": model,
                     "subject_count": len(subject_df),
-                    "mean_val_acc": subject_df["val_acc"].mean(),
-                    "std_val_acc": subject_df["val_acc"].std(ddof=0),
+                    "seed_count": len(seed_df),
+                    "mean_val_acc": subject_mean_acc,
+                    "std_val_acc": subject_std_acc,
+                    "subject_mean_val_acc": subject_mean_acc,
+                    "subject_std_val_acc": subject_std_acc,
+                    "seed_mean_val_acc": seed_mean_acc,
+                    "seed_std_val_acc": seed_std_acc,
                     "mean_val_balanced_acc": subject_df["val_balanced_acc"].mean(),
                     "mean_val_macro_f1": subject_df["val_macro_f1"].mean(),
                     "mean_val_kappa": subject_df["val_kappa"].mean(),
@@ -95,24 +107,45 @@ def main():
         raise RuntimeError("No completed results found to aggregate.")
 
     summary_df = pd.DataFrame(rows).sort_values(["model", "dataset"])
-    summary_df["acc_display"] = summary_df.apply(
-        lambda row: f"{row['mean_val_acc']:.2f}±{row['std_val_acc']:.2f}",
+    summary_df["acc_display_subject_std"] = summary_df.apply(
+        lambda row: f"{row['subject_mean_val_acc']:.2f}±{row['subject_std_val_acc']:.2f}",
+        axis=1,
+    )
+    summary_df["acc_display_seed_std"] = summary_df.apply(
+        lambda row: f"{row['subject_mean_val_acc']:.2f}±{row['seed_std_val_acc']:.2f}",
         axis=1,
     )
     summary_df.to_csv(output_dir / "benchmark_long_summary.csv", index=False)
 
-    accuracy_table = summary_df.pivot(index="model", columns="dataset", values="acc_display")
-    accuracy_table = accuracy_table.reindex(args.models)
-    accuracy_table = accuracy_table.reindex(columns=args.datasets)
-    accuracy_table.to_csv(output_dir / "final_accuracy_table.csv")
+    accuracy_table_subject_std = summary_df.pivot(
+        index="model", columns="dataset", values="acc_display_subject_std"
+    )
+    accuracy_table_subject_std = accuracy_table_subject_std.reindex(args.models)
+    accuracy_table_subject_std = accuracy_table_subject_std.reindex(columns=args.datasets)
+    accuracy_table_subject_std.to_csv(output_dir / "final_accuracy_table_subject_std.csv")
+
+    accuracy_table_seed_std = summary_df.pivot(
+        index="model", columns="dataset", values="acc_display_seed_std"
+    )
+    accuracy_table_seed_std = accuracy_table_seed_std.reindex(args.models)
+    accuracy_table_seed_std = accuracy_table_seed_std.reindex(columns=args.datasets)
+    accuracy_table_seed_std.to_csv(output_dir / "final_accuracy_table_seed_std.csv")
+
+    # Keep the original filename, but make the meaning explicit in the contents.
+    accuracy_table_subject_std.to_csv(output_dir / "final_accuracy_table.csv")
 
     metric_table = summary_df[
         [
             "model",
             "dataset",
             "subject_count",
+            "seed_count",
             "mean_val_acc",
             "std_val_acc",
+            "subject_mean_val_acc",
+            "subject_std_val_acc",
+            "seed_mean_val_acc",
+            "seed_std_val_acc",
             "mean_val_balanced_acc",
             "mean_val_macro_f1",
             "mean_val_kappa",
