@@ -120,11 +120,11 @@ For any questions or collaborations, please feel free to reach out via `liudingk
 ## Citation
 If you find our repo or MIRepNet useful for your research, please cite us:
 ```
-@misc{liu2025MIRepNet,
-  title         = {MIRepNet: A Pipeline and Foundation Model for EEG-Based Motor Imagery Classification}, 
-  author        = {Dingkun Liu and Zhu Chen and Jingwei Luo and Shijie Lian and Dongrui Wu},
-  year          = {2025},
-  eprint        = {2507.20254},
-  archivePrefix = {arXiv},
+@article{liu2026mirepnet,
+  title={MIRepNet: A Pipeline and Pre-trained Model for EEG-Based Motor Imagery Classification},
+  author={Dingkun Liu and Zhu Chen and Jingwei Luo and Shijie Lian and Yuheng Chen and Shaojie Hou and Xiaolian Zhu and Dongrui Wu},
+  journal={Knowledge-Based Systems},
+  year={2026},
+  publisher={Elsevier}
 }
 ```
