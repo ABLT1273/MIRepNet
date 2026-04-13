@@ -7,6 +7,8 @@
 ![license](https://img.shields.io/github/license/staraink/MIRepNet)
 
 ## :speech_balloon: Annoucement
+- [2026.04.07] 🚩 **News:**  This paper is accepted by **Knowledge-based Systems** (**KBS**, IF=7.6)🎉🎉🎉.
+
 - [2025.07.29] 🚩 **News**  The manuscript of MIRepNet can be found in [MIRepNet: A Pipeline and Foundation Model for EEG-Based Motor Imagery Classification](https://dingkun0817.github.io/MIRepNet/).
 
 - [2025.07.26] We propose **MIRepNet**, the first EEG foundation model tailored explicitly for motor imagery (MI), achieving **SOTA** performance across five public datasets and significantly outperforming existing specialized and generalized EEG models, even with fewer than 30 training trials per class.
@@ -118,11 +120,11 @@ For any questions or collaborations, please feel free to reach out via `liudingk
 ## Citation
 If you find our repo or MIRepNet useful for your research, please cite us:
 ```
-@misc{liu2025MIRepNet,
-  title         = {MIRepNet: A Pipeline and Foundation Model for EEG-Based Motor Imagery Classification}, 
-  author        = {Dingkun Liu and Zhu Chen and Jingwei Luo and Shijie Lian and Dongrui Wu},
-  year          = {2025},
-  eprint        = {2507.20254},
-  archivePrefix = {arXiv},
+@article{liu2026mirepnet,
+  title={MIRepNet: A Pipeline and Pre-trained Model for EEG-Based Motor Imagery Classification},
+  author={Dingkun Liu and Zhu Chen and Jingwei Luo and Shijie Lian and Yuheng Chen and Shaojie Hou and Xiaolian Zhu and Dongrui Wu},
+  journal={Knowledge-Based Systems},
+  year={2026},
+  publisher={Elsevier}
 }
 ```
